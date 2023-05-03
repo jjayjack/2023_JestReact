@@ -1,0 +1,58 @@
+Section 2: 15-18
+
+	// NOT THE BEST IMPLEMENTATION
+test('it calls onUserAdd when the form is submitted', async() => {
+	const argList = [];
+	const callback = (...args) => {
+		argList.push(args);
+	};
+
+	//Step 1: Render the component & any props
+	render(<UserForm onUserAdd={callback} />);
+	//Step 2: Find two inputs
+	const [nameInput, emailInput] = screen.getAllByRole('textbox');
+
+	//Step 2b: Simulate typing in a name
+	await user.click(nameInput);
+	await user.keyboard('Jane');
+
+	//Step 2c: Simulate typing in an email
+	await user.click(emailInput);
+	await user.keyboard('jane@email.com');
+
+	//Step 2d: Find the button
+	const button = screen.getByRole('button');
+
+	//Step 2e: Simulate clicking the button
+	await user.click(button);
+
+	// Step 3: Make an assertion 'onUserAdd' gets called with email / name
+	expect(argList).toHaveLength(1);
+	expect(argList[0][0]).toEqual({name: 'Jane', email: 'jane@email.com'})
+});
+
+
+Section 2: 22 - 23
+
+Query Function Fallback: 1 - getByTestId added (<tbody data-testid='users'>{renderedUsers}</tbody>)
+const rows = within(screen.getByTestId('users')).getAllByRole('row');
+expect(rows).toHaveLength(2);
+
+Query Function Fallback: 2 - using container
+
+test('it renders one row per user', () => {
+	const users = [
+		{ name: 'Jane', email: 'Jane@email.com' },
+		{ name: 'Mark', email: 'Mark@email.com' }
+	];
+
+	//Step 1: Render the component & any props
+	const { container } = render(<UserList users={users} />);
+
+	//Step 2: Manipulate the component or find an element in it
+	// eslint-disable-next-line
+	const rows = container.querySelectorAll('tbody tr');
+
+	//Step 3: Make an assertion - make sure component is acting the way we expect
+	expect(rows).toHaveLength(2);
+})

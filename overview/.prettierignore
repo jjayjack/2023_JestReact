@@ -1,0 +1,14 @@
+# Prettier Ignore files
+
+# Markdown Items
+
+**.md
+*.md
+/basics/*.md
+/basics/**.md
+
+# Ignore artifacts
+build
+
+# Ignore all HTML files:
+*.html
