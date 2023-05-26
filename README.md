@@ -52,7 +52,7 @@ Within this application, JEST testing within React application reviewed.
 | screen.findAllByTitle( )   | screen.findByTitle( )        | screen.getByLabelText( )    |
 | screen.logTestingPlaygroundURL( )   |         |     |
 
-## <!-- prettier-ignore-end -->
+ <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore -->
 | Start of Function Name      | Examples| 
@@ -84,7 +84,7 @@ These names included the following:
 | queryBy |   null    | Element |   Throw   |                                                |
 | findBy  |   Throw   | Element |   Throw   | Looks for an Element over the span of 1 second |
 
-## <!-- prettier-ignore-end -->
+<!-- prettier-ignore-end -->
 
 **Looking for Multiple Element?**
 
@@ -208,6 +208,48 @@ Testing just about anything
 
 [**Custom Matchers**]
 
+
+[**Router Testing**]
+
+<!-- prettier-ignore -->
+| :---        |    :----:   | :--- |
+
+| BrowserRouter| Stores current URL in the address bar | |
+
+| HashRouter | Stores current URL in the # part of the address bar | |
+
+| MemoryRouter   | Stores current URL in memory | Many blog posts recommend using this for testing purposes. |
+<!-- prettier-ignore-end -->
+
+_act() Warnings_
+- Frustrating because you need to understand 3-4 different topics to understand the warning
+
+- Will occur frequently if you're doing data fetching in useEffect
+
+- Functions that _automatically_ call 'act' for you. This is the preferred way of using 'act' when using React-Testing-Library
+
+    - screen.findBy
+    - screen.findAllBy
+    - waitFor
+    - user.keyboard
+    - user.click
+
+
+**Important Items**
+
+1. Unexpected state updates in tests are bad
+
+2. The act function defines a window in time where state updates can (and should) occur
+
+3. React Testing Library uses 'act' behind the scenes for you
+
+4. To solve act warnings, you should use a `findBy`. **Usually** you do not want to follow the advice of the warning 
+
+**Options for Solving Act Warnings**
+1. Use a ``findBy`` or ``findAllBy`` to detect when the componenet has finished its data fetching
+2. Use an ``act`` to control when the data-fetching request gets resolved. _More to be added_
+3. Use a module to avoid rendering the troublesome component
+4. Use an ``act`` with a ``pause``
 
 
 **Mock Functions**
