@@ -1,6 +1,12 @@
-import { screen, render } from '@testing-library/react';
+import { act, screen, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import RepositoriesListItem from './RepositoriesListItem';
+
+// jest.mock('../tree/FileIcon.js', () => {
+// 	return () => {
+// 		return 'File Icon Component';
+// 	};
+// });
 
 function renderComponent() {
 	const mockedRepository = {
@@ -20,7 +26,10 @@ function renderComponent() {
 }
 test('shows a link to the GitHub homepage for this repo', async () => {
 	renderComponent();
-	await screen.findByRole('img', {name: 'Python'});
+	await act(async () => {
+		await pause();
+	})
+	//await screen.findByRole('img', {name: 'Python'});
 });
 
 const pause = () => {
@@ -30,3 +39,4 @@ const pause = () => {
 		}, 100);
 	});
 };
+

@@ -133,7 +133,7 @@ React Testing Library provides many different query functions. Each begins with 
 
 **When to Use Each**
 
-Always prefer using query function ending with `ByRole`. Only use others if `ByRole` is not an option. 
+Always prefer using query function ending with `ByRole`. Only use others if `ByRole` is not an option.
 
 [**ARIA Roles Defined**](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)
 
@@ -208,32 +208,30 @@ Testing just about anything
 
 [**Custom Matchers**]
 
-
 [**Router Testing**]
 
 <!-- prettier-ignore -->
-| :---        |    :----:   | :--- |
-
+|Router |Uses|Notes|
+| :--- |    :----:   | :--- |
 | BrowserRouter| Stores current URL in the address bar | |
-
 | HashRouter | Stores current URL in the # part of the address bar | |
+| MemoryRouter | Stores current URL in memory | Many blog posts recommend using this for testing purposes. |
 
-| MemoryRouter   | Stores current URL in memory | Many blog posts recommend using this for testing purposes. |
 <!-- prettier-ignore-end -->
 
 _act() Warnings_
-- Frustrating because you need to understand 3-4 different topics to understand the warning
 
-- Will occur frequently if you're doing data fetching in useEffect
+-   Frustrating because you need to understand 3-4 different topics to understand the warning
 
-- Functions that _automatically_ call 'act' for you. This is the preferred way of using 'act' when using React-Testing-Library
+-   Will occur frequently if you're doing data fetching in useEffect
 
-    - screen.findBy
-    - screen.findAllBy
-    - waitFor
-    - user.keyboard
-    - user.click
+-   Functions that _automatically_ call 'act' for you. This is the preferred way of using 'act' when using React-Testing-Library
 
+    -   screen.findBy
+    -   screen.findAllBy
+    -   waitFor
+    -   user.keyboard
+    -   user.click
 
 **Important Items**
 
@@ -243,14 +241,40 @@ _act() Warnings_
 
 3. React Testing Library uses 'act' behind the scenes for you
 
-4. To solve act warnings, you should use a `findBy`. **Usually** you do not want to follow the advice of the warning 
+4. To solve act warnings, you should use a `findBy`. **Usually** you do not want to follow the advice of the warning
 
 **Options for Solving Act Warnings**
-1. Use a ``findBy`` or ``findAllBy`` to detect when the componenet has finished its data fetching
-2. Use an ``act`` to control when the data-fetching request gets resolved. _More to be added_
-3. Use a module to avoid rendering the troublesome component
-4. Use an ``act`` with a ``pause``
 
+1. Use a `findBy` or `findAllBy` to detect when the component has finished its data fetching
+2. Use an `act` to control when the data-fetching request gets resolved.
+3. Use a module to avoid rendering the troublesome component
+4. Use an `act` with a `pause`
+
+```
+1:
+await screen.findByRole('img', {name: 'Python'});
+
+2:
+
+3:
+jest.mock('../tree/FileIcon.js', () => { return () => { return 'File Icon Component' }; });
+
+4:
+const pause = () => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve();
+		}, 100);
+	});
+};
+
+await act(async () => {
+		await pause();
+	})
+
+```
+
+---
 
 **Mock Functions**
 
